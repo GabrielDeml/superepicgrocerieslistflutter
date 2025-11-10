@@ -43,7 +43,7 @@ class HomeView extends StatelessWidget {
                   ),
 
                 switch (randomJoke) {
-                  AsyncValue(:final value?) => SelectableText(
+                  AsyncValue(:final value!, hasValue: true) => SelectableText(
                     '${value.setup}\n\n${value.punchline}',
                     textAlign: TextAlign.center,
                     style: const TextStyle(fontSize: 24),

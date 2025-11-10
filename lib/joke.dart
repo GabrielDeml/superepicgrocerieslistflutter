@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'joke.g.dart';
 
 class Joke {
   Joke({
@@ -8,7 +10,7 @@ class Joke {
     required this.punchline,
     required this.id,
   });
-  
+
   factory Joke.fromJson(Map<String, Object?> json) {
     return Joke(
       type: json['type']! as String,
@@ -17,7 +19,7 @@ class Joke {
       id: json['id']! as int,
     );
   }
-  
+
   final String type;
   final String setup;
   final String punchline;
@@ -27,10 +29,13 @@ class Joke {
 final dio = Dio();
 
 Future<Joke> fetchRandomJoke() async {
-  final response = await dio.get<Map<String, Object?>>('https://official-joke-api.appspot.com/random_joke');
+  final response = await dio.get<Map<String, Object?>>(
+    'https://official-joke-api.appspot.com/random_joke',
+  );
   return Joke.fromJson(response.data!);
 }
 
-final randomJokeProvider = FutureProvider<Joke>((ref) async {
+@riverpod
+Future<Joke> randomJoke(Ref ref) async {
   return fetchRandomJoke();
-});
+}
